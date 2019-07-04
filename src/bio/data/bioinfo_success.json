@@ -1,0 +1,18 @@
+{
+    "MessageResponse": {
+        "Body": {
+            "getInfoResponse": {
+                "return": {
+                    "codigoRespuesta": "8000",
+                    "descripcionRespuesta": "8000: Todas las operaciones se efectuaron correctamente",
+                    "indHuellaDer": "1",
+                    "indHuellaIzq": "6",
+                    "indMejorHuellaDer": "1",
+                    "indMejorHuellaIzq": "6",
+                    "numeroDocumento": "71400902",
+                    "tipoDocumento": "1"
+                }
+            }
+        }
+    }
+}

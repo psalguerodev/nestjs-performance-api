@@ -1,0 +1,13 @@
+{
+    "user": {
+        "ipAddress": "192.12.14.1",
+        "macAddress": "00-15-5D-F9-E4-7C",
+        "hostName": "S36413T13W10",
+        "userName": "S36413"
+    },
+    "softTSU": {
+        "activeControllerIpAddress": "10.11.12.13",
+        "counterId": "1",
+        "designKey": "interbank"
+    }
+}
