@@ -2,6 +2,7 @@ import { Controller, Get, Res, HttpStatus, Post } from '@nestjs/common';
 import { BioService } from './bio.service';
 import { Response } from 'express';
 import { MilesBenefits } from './interfaces/miles.benefits';
+import { Customer } from './interfaces/customer';
 
 @Controller('')
 export class BioController {
@@ -26,6 +27,13 @@ export class BioController {
   getBenefits(@Res() response: Response ) {
     this.bioService.getBenefits().subscribe((beneftis: MilesBenefits) => {
       response.status(HttpStatus.OK).json(beneftis);
+    }, error => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error));
+  }
+
+  @Get('/vision/customer')
+  findCustomer(@Res() response: Response) {
+    this.bioService.findCustomer().subscribe((customer: Customer) => {
+      response.status(HttpStatus.OK).json(customer);
     }, error => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error));
   }
 }

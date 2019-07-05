@@ -5,6 +5,7 @@ import * as bioverify_success from './data/bioverify_success.json';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { MilesBenefits, MilesBenefitsResponse } from './interfaces/miles.benefits';
+import { Customer } from './interfaces/customer';
 
 @Injectable()
 export class BioService {
@@ -38,4 +39,19 @@ export class BioService {
       );
   }
 
+  findCustomer(): Observable<Customer> {
+    return this.http.post<any>('https://eu1-ibk-apm-dev-ext-001.azure-api.net/ibk/api/customer', {})
+      .pipe(
+        map((response) => {
+          const customerResponse: Customer =  response.data.customer as Customer;
+          return {
+            id: customerResponse.id,
+            identityDocumentNumber: customerResponse.identityDocumentNumber,
+            identityDocumentType: customerResponse.identityDocumentType,
+            fullName: customerResponse.fullName,
+          } as Customer;
+        }),
+        catchError(error => throwError(error)),
+      );
+  }
 }
