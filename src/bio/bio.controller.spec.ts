@@ -10,9 +10,7 @@ describe('Bio Controller', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [BioController],
       providers: [BioService],
-      imports: [
-        HttpModule,
-      ],
+      imports: [HttpModule],
     }).compile();
 
     controller = module.get<BioController>(BioController);
