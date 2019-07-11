@@ -1,18 +1,20 @@
-import { Injectable, HttpService } from '@nestjs/common';
+import { Injectable, HttpService, Logger } from '@nestjs/common';
 import * as wininfo_success from './data/wininfo_success.json';
 import * as bioinfo_success from './data/bioinfo_success.json';
 import * as bioverify_success from './data/bioverify_success.json';
-import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable, throwError, forkJoin } from 'rxjs';
+import { map, catchError, finalize } from 'rxjs/operators';
 import {
   MilesBenefits,
   MilesBenefitsResponse,
 } from './interfaces/miles.benefits';
-import { Customer } from './interfaces/customer';
+import { Customer, CustomerBenefitsResponse } from './interfaces/customer';
+import biomatch_success from './data/biomatch_success';
+import biomatch_check_success from './data/biomatch_check_success';
 
 @Injectable()
 export class BioService {
-  constructor(private readonly http: HttpService) {}
+  constructor(private readonly http: HttpService) { }
 
   async getWinInfo(): Promise<any> {
     return new Promise(resolve => resolve(wininfo_success));
@@ -26,7 +28,16 @@ export class BioService {
     return new Promise(resolve => resolve(bioverify_success));
   }
 
+  async getFingerTemplate(): Promise<any> {
+    return new Promise(resolve => resolve(biomatch_success));
+  }
+
+  async verifyBiomatch(): Promise<any> {
+    return new Promise(resolve => resolve(biomatch_check_success));
+  }
+
   getBenefits(): Observable<MilesBenefits> {
+    Logger.log('[getBenefits] Invoke');
     return this.http
       .get<MilesBenefitsResponse>(
         'http://142.93.89.210:4000/vision/customer/benefits',
@@ -38,7 +49,7 @@ export class BioService {
             const splitBalance: string[] = finalBalance.split('');
             const balanceFormat: string = `${
               splitBalance[0]
-            },${finalBalance.substr(1, finalBalance.length - 1)}`;
+              },${finalBalance.substr(1, finalBalance.length - 1)}`;
             response.data.milesBenefit.finalBalance = balanceFormat;
           }
           return response.data.milesBenefit;
@@ -48,6 +59,7 @@ export class BioService {
   }
 
   findCustomer(): Observable<Customer> {
+    Logger.log('[findCustomer] Invoke');
     return this.http
       .post<any>(
         'https://eu1-ibk-apm-dev-ext-001.azure-api.net/ibk/api/customer',
@@ -64,6 +76,20 @@ export class BioService {
           } as Customer;
         }),
         catchError(error => throwError(error)),
+      );
+  }
+
+  forkJoinService(): Observable<CustomerBenefitsResponse> {
+    return forkJoin(this.getBenefits(), this.findCustomer())
+      .pipe(
+        catchError(error => throwError(error)),
+        finalize(() => Logger.log('End [forkJoinService]')),
+        map(response => {
+          return {
+            customer: response[1],
+            benefits: response[0],
+          } as CustomerBenefitsResponse;
+        }),
       );
   }
 }

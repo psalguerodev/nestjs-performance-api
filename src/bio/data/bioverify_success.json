@@ -3,14 +3,14 @@
         "Body": {
             "verifyMorphoResponse": {
                 "return": {
-                    "apellidoMatCliente": "PALACIN",
-                    "apellidoPatCliente": "ESPINOZA",
+                    "apellidoMatCliente": "SALGUERO",
+                    "apellidoPatCliente": "AVALOS",
                     "codigoRespuesta": "8000",
                     "codigoRespuestaReniec": "70007",
                     "descripcionRespuesta": "8000: Todas las operaciones se efectuaron correctamente",
                     "descripcionRespuestaReniec": "70007: NO HIT: NO es posible identificar a la persona",
-                    "nombreCliente": "JEISSON",
-                    "numeroDocumento": "46025767",
+                    "nombreCliente": "PATRICK",
+                    "numeroDocumento": "70570294",
                     "restriccion": " ",
                     "tipoDocumento": "1",
                     "vigencia": "DESCONOCIDO"
