@@ -2,6 +2,7 @@ import { Injectable, HttpService, Logger } from '@nestjs/common';
 import * as wininfo_success from './data/wininfo_success.json';
 import * as bioinfo_success from './data/bioinfo_success.json';
 import * as bioverify_success from './data/bioverify_success.json';
+import * as bioverify_success_hit from './data/bioverify_success_hit.json';
 import { Observable, throwError, forkJoin } from 'rxjs';
 import { map, catchError, finalize } from 'rxjs/operators';
 import {
@@ -24,8 +25,14 @@ export class BioService {
     return new Promise(resolve => resolve(bioinfo_success));
   }
 
-  async verifyBio(): Promise<any> {
-    return new Promise(resolve => resolve(bioverify_success));
+  async verifyBio(documentNumber: string = '23232323'): Promise<any> {
+    return new Promise(resolve => {
+      if (documentNumber === '23232323') {
+        resolve(bioverify_success);
+      } else {
+        resolve(bioverify_success_hit);
+      }
+    });
   }
 
   async getFingerTemplate(): Promise<any> {

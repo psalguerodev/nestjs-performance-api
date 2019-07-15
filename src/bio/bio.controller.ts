@@ -1,4 +1,4 @@
-import { Controller, Get, Res, HttpStatus, Post, Logger, Body } from '@nestjs/common';
+import { Controller, Get, Res, HttpStatus, Post, Logger, Body, Query } from '@nestjs/common';
 import { BioService } from './bio.service';
 import { Response } from 'express';
 import { MilesBenefits } from './interfaces/miles.benefits';
@@ -10,9 +10,11 @@ export class BioController {
 
   @Get('/uxagent/api/user')
   winInfo(@Res() response: Response) {
-    this.bioService
+    setTimeout(_ => {
+      this.bioService
       .getWinInfo()
       .then(data => response.status(HttpStatus.OK).json(data));
+    }, 0);
   }
 
   @Post('/biomatch')
@@ -21,11 +23,11 @@ export class BioController {
     if (stringvalue.indexOf('check') !== -1) {
       this.bioService
         .verifyBiomatch().then(checkBio => {
-          response.type('xml').status(HttpStatus.OK).send(checkBio);
+          setTimeout(_ => response.type('xml').status(HttpStatus.OK).send(checkBio), 100);
         });
     } else {
       this.bioService.getFingerTemplate().then(biomatch => {
-        response.type('xml').status(HttpStatus.OK).send(biomatch);
+        setTimeout(_ => response.type('xml').status(HttpStatus.OK).send(biomatch), 3000);
       });
     }
   }
@@ -34,14 +36,14 @@ export class BioController {
   getBioInfo(@Res() response: Response) {
     this.bioService
       .getBioInfo()
-      .then(data => response.status(HttpStatus.OK).json(data));
+      .then(data => setTimeout(_ => response.status(HttpStatus.OK).json(data), 0));
   }
 
   @Get('/ibk/uat/biometria/biogateway/huella/valida')
-  bioVerify(@Res() response: Response) {
+  bioVerify(@Query() parameters, @Res() response: Response) {
     this.bioService
-      .verifyBio()
-      .then(data => response.status(HttpStatus.OK).json(data));
+      .verifyBio(parameters.numeroDocumento)
+      .then(data => setTimeout(_ =>  response.status(HttpStatus.OK).json(data), 4000));
   }
 
   @Get('/vision/benefits')

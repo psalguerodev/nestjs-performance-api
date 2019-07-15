@@ -1,0 +1,21 @@
+{
+    "MessageResponse": {
+        "Body": {
+            "verifyMorphoResponse": {
+                "return": {
+                    "apellidoMatCliente": "SALGUERO",
+                    "apellidoPatCliente": "AVALOS",
+                    "codigoRespuesta": "8000",
+                    "codigoRespuestaReniec": "70006",
+                    "descripcionRespuesta": "8000: Todas las operaciones se efectuaron correctamente",
+                    "descripcionRespuestaReniec": "70006:  HIT: Es posible identificar a la persona",
+                    "nombreCliente": "PATRICK",
+                    "numeroDocumento": "23232323",
+                    "restriccion": " ",
+                    "tipoDocumento": "1",
+                    "vigencia": "DESCONOCIDO"
+                }
+            }
+        }
+    }
+}
